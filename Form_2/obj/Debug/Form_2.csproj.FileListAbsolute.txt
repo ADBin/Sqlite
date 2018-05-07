@@ -1,0 +1,12 @@
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\bin\Debug\Form_2.exe.config
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\bin\Debug\Form_2.exe
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\bin\Debug\Form_2.pdb
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.csprojResolveAssemblyReference.cache
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.Form1.resources
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.Properties.Resources.resources
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.csproj.GenerateResource.Cache
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.exe
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.pdb
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\bin\Debug\System.Data.SQLite.dll
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\bin\Debug\System.Data.SQLite.xml
+d:\用户目录\我的文档\visual studio 2015\Projects\Form_2\Form_2\obj\Debug\Form_2.Form2.resources
