@@ -47,7 +47,7 @@ namespace Form_2
             //SQLiteCommand command = conn.CreateCommand();
             try
             {
-                command.CommandText = "INSERT into Students (id, name, age, sex, born, address, phone) VALUES(@id, @name, @age, @sex, @born, @address, @phone)";
+                command.CommandText = "INSERT into Students (id, name, age, sex, born, address, phone, discipline) VALUES(@id, @name, @age, @sex, @born, @address, @phone, @discipline)";
                 command.Parameters.Add(new SQLiteParameter("@id", int.Parse(textId.Text)));
                 command.Parameters.Add(new SQLiteParameter("@name", textName.Text));
                 command.Parameters.Add(new SQLiteParameter("@age", int.Parse(textAge.Text)));
@@ -55,6 +55,7 @@ namespace Form_2
                 command.Parameters.Add(new SQLiteParameter("@born", int.Parse(textBorn.Text)));
                 command.Parameters.Add(new SQLiteParameter("@address", textAddress.Text));
                 command.Parameters.Add(new SQLiteParameter("@phone", int.Parse(textPhone.Text)));
+                command.Parameters.Add(new SQLiteParameter("@discipline", textDiscipline.Text));
                 command.ExecuteNonQuery();
                 MessageBox.Show("添加成功！", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
@@ -101,7 +102,7 @@ namespace Form_2
 
             try
             {
-                command.CommandText = "UPDATE Students set name=@name, age=@age, sex=@sex, born=@born, address=@address, phone=@phone WHERE id = @id";
+                command.CommandText = "UPDATE Students set name=@name, age=@age, sex=@sex, born=@born, address=@address, phone=@phone, discipline=@discipline WHERE id = @id";
                 command.Parameters.Add(new SQLiteParameter("@id", int.Parse(textId.Text)));
                 command.Parameters.Add(new SQLiteParameter("@name", textName.Text));
                 command.Parameters.Add(new SQLiteParameter("@age", int.Parse(textAge.Text)));
@@ -109,6 +110,7 @@ namespace Form_2
                 command.Parameters.Add(new SQLiteParameter("@born", int.Parse(textBorn.Text)));
                 command.Parameters.Add(new SQLiteParameter("@address", textAddress.Text));
                 command.Parameters.Add(new SQLiteParameter("@phone", int.Parse(textPhone.Text)));
+                command.Parameters.Add(new SQLiteParameter("@discipline", textDiscipline.Text));
                 command.ExecuteNonQuery();
 
                 MessageBox.Show("修改成功！", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -131,13 +133,26 @@ namespace Form_2
             SQLiteCommand command = conn.CreateCommand();
             try
             {
-                command.CommandText = "SELECT * FROM Students where id = @id";
-                command.Parameters.Add(new SQLiteParameter("@id", int.Parse(toolStripTextId.Text)));
-                
-            }catch(Exception ex)
+                if (toolStripComboBox1.Text == "id")
+                {
+                    command.CommandText = "SELECT * FROM Students where id = @id";
+                    command.Parameters.Add(new SQLiteParameter("@id", int.Parse(toolStripTextId.Text)));
+                }
+                if (toolStripComboBox1.Text == "姓名")
+                {
+                    command.CommandText = "SELECT * FROM Students where name = @id";
+                    command.Parameters.Add(new SQLiteParameter("@id", toolStripTextId.Text));
+                }
+                if (toolStripComboBox1.Text == "专业")
+                {
+                    command.CommandText = "SELECT * FROM Students where discipline = @id";
+                    command.Parameters.Add(new SQLiteParameter("@id", toolStripTextId.Text));
+                }
+            }
+            catch(Exception ex)
             {
                 Console.WriteLine(ex);
-                MessageBox.Show("输入id有误，请检查", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("输入有误，请检查", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
             
@@ -154,6 +169,7 @@ namespace Form_2
                 textBorn.Text = dt.Rows[0]["born"].ToString();
                 textAddress.Text = dt.Rows[0]["address"].ToString();
                 textPhone.Text = dt.Rows[0]["phone"].ToString();
+                textDiscipline.Text = dt.Rows[0]["discipline"].ToString();
                 toolStripLabelStatus.Text = "查询成功";
             }
             catch (Exception ex)
@@ -196,7 +212,7 @@ namespace Form_2
             //这是数据库登录密码
             conn.SetPassword("1234");
             conn.Open();
-            string query = "create table Students (id INTEGER, name VARCHAR, age INT, sex BIT, born INT, address VARCHAR, phone INT)";
+            string query = "create table Students (id INTEGER, name VARCHAR, age INT, sex BIT, born INT, address VARCHAR, phone INT, discipline VARCHAR)";
             //创建命令
             SQLiteCommand cmd = new SQLiteCommand(query, conn);
             //执行命令
@@ -224,6 +240,9 @@ namespace Form_2
             toolStripLabelStatus.Text = "数据库连接完成";
             show_all();
         }
+
+
+
 
 
         //private void buttonConnect_Click(object sender, EventArgs e) //数据连接
