@@ -76,94 +76,55 @@ namespace Form_2
             DialogResult TS = MessageBox.Show("是否删除？？", "Waring", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (TS == DialogResult.No) return;
             SQLiteCommand command = conn.CreateCommand();
-
-           // SQLiteCommand command = conn.CreateCommand();
-            command.CommandText = "SELECT * FROM Students where id = @id";
-            command.Parameters.Add(new SQLiteParameter("@id", int.Parse(textId.Text)));
-            SQLiteDataAdapter da = new SQLiteDataAdapter(command);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            Console.WriteLine(dt.Rows.Count.ToString());
-            for (int i = 0; i < dt.Rows.Count; i++)
+            try
             {
-                if (textId.Text == dt.Rows[i]["id"].ToString())
-                {
-                    try
-                    {
-                        command.CommandText = "DELETE FROM Students where id = @id";
+                command.CommandText = "DELETE FROM Students where id = @id";
 
-                        command.Parameters.AddWithValue("@id", int.Parse(textId.Text));
+                command.Parameters.AddWithValue("@id", int.Parse(textId.Text));
 
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("删除成功！", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                        show_all();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        MessageBox.Show("错误，删除失败！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                    }
-                    command.Dispose();
-                    return;
-                }
+                command.ExecuteNonQuery();
+                MessageBox.Show("删除成功！", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                show_all();
             }
-            MessageBox.Show("没有此学号！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            
-            
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show("错误，删除失败！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            command.Dispose();
         }
 
         private void toolStripChange_Click(object sender, EventArgs e)  //修改一条信息
         {
             toolStripLabelStatus.Text = "";
-
+            int sex = textSex.Text == "男" ? 1 : 0;
             SQLiteCommand command = conn.CreateCommand();
-            command.CommandText = "SELECT * FROM Students where id = @id";
-            command.Parameters.Add(new SQLiteParameter("@id", int.Parse(textId.Text)));
-            SQLiteDataAdapter da = new SQLiteDataAdapter(command);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
 
-            Console.WriteLine(dt.Rows.Count.ToString());
-            for (int i = 0; i < dt.Rows.Count; i++)
+            try
             {
-                if (textId.Text == dt.Rows[i]["id"].ToString())
-                {
-                    int sex = textSex.Text == "男" ? 1 : 0;
-                    //SQLiteCommand command = conn.CreateCommand();
+                command.CommandText = "UPDATE Students set name=@name, age=@age, sex=@sex, born=@born, address=@address, phone=@phone, discipline=@discipline WHERE id = @id";
+                command.Parameters.Add(new SQLiteParameter("@id", int.Parse(textId.Text)));
+                command.Parameters.Add(new SQLiteParameter("@name", textName.Text));
+                command.Parameters.Add(new SQLiteParameter("@age", int.Parse(textAge.Text)));
+                command.Parameters.Add(new SQLiteParameter("@sex", sex));
+                command.Parameters.Add(new SQLiteParameter("@born", int.Parse(textBorn.Text)));
+                command.Parameters.Add(new SQLiteParameter("@address", textAddress.Text));
+                command.Parameters.Add(new SQLiteParameter("@phone", int.Parse(textPhone.Text)));
+                command.Parameters.Add(new SQLiteParameter("@discipline", textDiscipline.Text));
+                command.ExecuteNonQuery();
 
-                    try
-                    {
-                        command.CommandText = "UPDATE Students set name=@name, age=@age, sex=@sex, born=@born, address=@address, phone=@phone, discipline=@discipline WHERE id = @id";
-                        command.Parameters.Add(new SQLiteParameter("@id", int.Parse(textId.Text)));
-                        command.Parameters.Add(new SQLiteParameter("@name", textName.Text));
-                        command.Parameters.Add(new SQLiteParameter("@age", int.Parse(textAge.Text)));
-                        command.Parameters.Add(new SQLiteParameter("@sex", sex));
-                        command.Parameters.Add(new SQLiteParameter("@born", int.Parse(textBorn.Text)));
-                        command.Parameters.Add(new SQLiteParameter("@address", textAddress.Text));
-                        command.Parameters.Add(new SQLiteParameter("@phone", int.Parse(textPhone.Text)));
-                        command.Parameters.Add(new SQLiteParameter("@discipline", textDiscipline.Text));
-                        command.ExecuteNonQuery();
+                MessageBox.Show("修改成功！", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
-                        MessageBox.Show("修改成功！", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        MessageBox.Show("输入数据有误，请检查", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                    }
-
-
-                    command.Dispose();
-                    show_all();
-                    return;
-                }
-               
             }
-            MessageBox.Show("没有此学号！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show("输入数据有误，请检查", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
 
+
+            command.Dispose();
+            show_all();
         }
 
         private void toolStripSearchId_Click(object sender, EventArgs e)  //搜索一条信息
